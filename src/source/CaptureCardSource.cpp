@@ -905,7 +905,7 @@ struct CaptureCardSource::Impl:ISampleGrabberCB {
                 const double previous=compressedPath?lastCallbackTime:pendingTime;
                 if(received){arrivalDeltaMs=std::chrono::duration<double,std::milli>(arrival-latestArrival).count();ptsDeltaMs=(time-previous)*1000;}
                 const bool driverFlag=sample->IsDiscontinuity()==S_OK;
-                const bool driverBreak=driverDiscontinuity.observe(driverFlag,!compressedPath,
+                const bool driverBreak=driverDiscontinuity.observe(driverFlag,!compressedPath||codec==CaptureCodec::Mjpeg,
                     sampleTime&&sampleEnd>sampleStart,received>0,time-previous,arrivalDeltaMs/1000,info.averageFps);
                 if(driverFlag&&!driverBreak){
                     ++suppressedDriverDiscontinuities;
